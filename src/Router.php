@@ -2,8 +2,11 @@
 
 namespace iansltx\ApiAiBridge;
 
+use iansltx\ApiAiBridge\Container\ClosureWrapper;
+use iansltx\ApiAiBridge\Container\NoMatchedActionException;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use iansltx\ApiAiBridge\Container\ContainerWrapper;
 
 class Router
 {
@@ -15,13 +18,25 @@ class Router
      * @param array $actionMap a mapping of action names to container dependency names; note that this
      *   is a whitelist so arbitrary action names don't call unexpected dependencies, rather than
      *   falling back to default behavior. See HandlerInterface for expected dependency signatures.
-     * @param callable $fallback if provided, this handler will override the default fallback handler
+     * @param callable|null $fallback if provided, this handler will override the default fallback handler
      *   when a dependency does not exist for a supplied action. See HandlerInterface for signature.
      * @return static
      */
     public static function build(ContainerInterface $container, array $actionMap, callable $fallback = null) : self
     {
         return new static(new ContainerWrapper($container, $actionMap), $fallback);
+    }
+
+    /**
+     * @param \Closure[] $handlers an array with action names for keys and closures as values;
+     *   closure signatures should match HandlerInterface::__invoke(), but this is not enforced.
+     * @param callable|null $fallback if provided, this handler will override the default fallback handler
+     *   when a dependency does not exist for a supplied action. See HandlerInterface for signature.
+     * @return static
+     */
+    public static function buildFromClosureArray(array $handlers, callable $fallback = null) : self
+    {
+        return new static(new ClosureWrapper($handlers), $fallback);
     }
 
     /**
