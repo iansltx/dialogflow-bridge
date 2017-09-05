@@ -1,0 +1,31 @@
+{
+  "name": "iansltx/api-ai-bridge",
+  "description": "A set of middlewares + helpers for responding to API.ai web hooks",
+  "keywords": ["api.ai", "NLU", "natural language", "bot"],
+  "homepage": "https://github.com/iansltx/api-ai-bridge",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Ian Littman",
+      "email": "iansltx@gmail.com",
+      "homepage": "https://twitter.com/iansltx",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php" : ">=7.1",
+    "http-interop/http-middleware": "^0.4.1",
+    "psr/container": "^1.0",
+    "psr/http-message": "^1.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "iansltx\\ApiAiBridge\\": "src"
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0-dev"
+    }
+  }
+}
