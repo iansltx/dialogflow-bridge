@@ -19,38 +19,51 @@ class Answer implements \JsonSerializable
         $this->source = $source;
     }
 
-    public function clone() : self
+    public function withoutQuestionContexts(bool $unsetLocallySet = false)
     {
-        return clone $this;
-    }
-
-    public function dropAllQuestionContexts(bool $unsetLocallySet = false)
-    {
-        foreach ($this->questionContextNames as $name) {
-            if (!isset($this->outputContexts[$name]) || $unsetLocallySet) {
-                $this->outputContexts[$name] = ['name' => $name, 'lifespan' => 0, 'parameters' => (object) []];
+        $clone = clone $this;
+        foreach ($clone->questionContextNames as $name) {
+            if (!isset($clone->outputContexts[$name]) || $unsetLocallySet) {
+                $clone->outputContexts[$name] = ['name' => $name, 'lifespan' => 0, 'parameters' => (object) []];
             }
         }
-        return $this;
+        return $clone;
     }
 
-    public function setSpeech(string $speech) : self
+    public function withSpeech(string $speech) : self
     {
-        $this->speech = $speech;
-        return $this;
+        $clone = clone $this;
+        $clone->speech = $speech;
+        return $clone;
     }
 
-    public function setText(string $text) : self
+    public function withText(string $text) : self
     {
-        $this->text = $text;
-        return $this;
+        $clone = clone $this;
+        $clone->text = $text;
+        return $clone;
     }
 
-    public function setBoth(string $textAndSpeech) : self
+    public function withSpeechAndText(string $textAndSpeech) : self
     {
-        $this->speech = $textAndSpeech;
-        $this->text = $textAndSpeech;
-        return $this;
+        $clone = clone $this;
+        $clone->speech = $textAndSpeech;
+        $clone->text = $textAndSpeech;
+        return $clone;
+    }
+
+    public function withData(array $data) : self
+    {
+        $clone = clone $this;
+        $clone->data = $data;
+        return $clone;
+    }
+
+    public function withContext(string $name, array $data, int $lifespan) : self
+    {
+        $clone = clone $this;
+        $clone->outputContexts[$name] = ['name' => $name, 'parameters' => $data ?: (object)[], 'lifespan' => $lifespan];
+        return $clone;
     }
 
     public function getSpeech() : ?string
@@ -66,18 +79,6 @@ class Answer implements \JsonSerializable
     public function getData() : array
     {
         return $this->data;
-    }
-
-    public function setData(array $data) : self
-    {
-        $this->data = $data;
-        return $this;
-    }
-
-    public function setContext(string $name, array $data, int $lifespan) : self
-    {
-        $this->outputContexts[$name] = ['name' => $name, 'parameters' => $data ?: (object) [], 'lifespan' => $lifespan];
-        return $this;
     }
 
     /** @inheritdoc */
