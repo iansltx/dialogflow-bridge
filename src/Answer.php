@@ -7,7 +7,7 @@ class Answer implements \JsonSerializable
     protected $questionContextNames;
 
     protected $source;
-    protected $outputContexts;
+    protected $outputContexts = [];
 
     protected $speech;
     protected $text;

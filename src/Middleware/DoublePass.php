@@ -20,10 +20,10 @@ class DoublePass
      *
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
-     * @param callable|null $next
+     * @param mixed $unused not hinted so can be used as either as a middleware or as a Slim 3 action
      * @return ResponseInterface
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next = null)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, $unused = null)
     {
         $response->getBody()->write(json_encode($this->router->dispatch($request)));
         return $response->withHeader('Content-type', 'application/json');
