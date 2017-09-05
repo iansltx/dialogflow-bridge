@@ -9,7 +9,7 @@ class Question
     const SKIP_NEVER = 0;
     const SKIP_IF_PARAM_EXISTS = 1;
     const SKIP_IF_CONTEXT_EXISTS = 2;
-    const SKIP_IF_ANY_EXISTS = self::SKIP_IF_PARAM_EXISTS | self::SKIP_IF_CONTEXT_EXISTS;
+    const SKIP_IF_EITHER_EXISTS = self::SKIP_IF_PARAM_EXISTS | self::SKIP_IF_CONTEXT_EXISTS;
 
     protected $data;
 
@@ -133,12 +133,27 @@ class Question
      * @param $paramValue
      * @param int $skipOverwriteFlags one or more SKIP_* contsants. Default is to overwrite
      *   a value no matter what. Can also specify SKIP_IF_CONTEXT_EXISTS, SKIP_IF_PARAM_EXISTS,
-     *   or an OR of both, aka SKIP_IF_ANY_EXISTS.
+     *   or an OR of both, aka SKIP_IF_EITHER_EXISTS.
      * @return static; if the object wasn't changed, the original instance will be returned
      */
     public function withParam(string $paramName, $paramValue, int $skipOverwriteFlags = self::SKIP_NEVER) : self
     {
-        // TODO
-        return $this;
+        if (($skipOverwriteFlags & self::SKIP_IF_PARAM_EXISTS) &&
+                isset($this->data['result']['parameters'][$paramName])) {
+            return $this;
+        }
+
+        if ($skipOverwriteFlags & self::SKIP_IF_CONTEXT_EXISTS) {
+            foreach ($this->data['result']['contexts'] as $context) {
+                if (isset($context['parameters'][$paramName])) {
+                    return $this;
+                }
+            }
+        }
+
+        $clone = clone $this;
+        $clone->data['result']['parameters'][$paramName] = $paramValue;
+
+        return $clone;
     }
 }
