@@ -1,6 +1,6 @@
 <?php
 
-namespace iansltx\ApiAiBridge\Router;
+namespace iansltx\ApiAiBridge\Middleware;
 
 use iansltx\ApiAiBridge\Router;
 use Psr\Http\Message\ResponseInterface;
