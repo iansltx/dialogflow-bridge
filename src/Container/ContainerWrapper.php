@@ -19,7 +19,7 @@ class ContainerWrapper implements ContainerInterface
     public function get($id)
     {
         if (isset($this->actionMap[$id])) {
-            return $this->container->get($id);
+            return $this->container->get($this->actionMap[$id]);
         }
         throw new NoMatchedActionException("$id was not found in the action-to-dependency mapping");
     }
