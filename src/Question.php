@@ -28,7 +28,8 @@ class Question
 
     public function getParam(string $paramName, $default = null)
     {
-        return $this->data['result']['parameters'][$paramName] ?? $default;
+        return isset($this->data['result']['parameters'][$paramName]) && $this->data['result']['parameters'][$paramName]
+            ? $this->data['result']['parameters'][$paramName] : $default;
     }
 
     /**
@@ -48,7 +49,7 @@ class Question
         }
 
         foreach ($this->data['result']['contexts'] as $context) {
-            if (isset($context['parameters'][$paramName])) {
+            if (isset($context['parameters'][$paramName]) && $context['parameters'][$paramName]) {
                 return $context['parameters'][$paramName];
             }
         }
@@ -58,7 +59,9 @@ class Question
 
     public function getContextParam(string $contextName, string $paramName, $default = null)
     {
-        return $this->data['result']['contexts'][$contextName]['parameters'][$paramName] ?? $default;
+        return isset($this->data['result']['contexts'][$contextName]['parameters'][$paramName]) &&
+            $this->data['result']['contexts'][$contextName]['parameters'][$paramName] ?
+            $this->data['result']['contexts'][$contextName]['parameters'][$paramName] : $default;
     }
 
     public function getContextData(string $contextName, $default = []) : array
@@ -139,13 +142,14 @@ class Question
     public function withParam(string $paramName, $paramValue, int $skipOverwriteFlags = self::SKIP_NEVER) : self
     {
         if (($skipOverwriteFlags & self::SKIP_IF_PARAM_EXISTS) &&
-                isset($this->data['result']['parameters'][$paramName])) {
+                isset($this->data['result']['parameters'][$paramName]) &&
+                $this->data['result']['parameters'][$paramName]) {
             return $this;
         }
 
         if ($skipOverwriteFlags & self::SKIP_IF_CONTEXT_EXISTS) {
             foreach ($this->data['result']['contexts'] as $context) {
-                if (isset($context['parameters'][$paramName])) {
+                if (isset($context['parameters'][$paramName]) && $context['parameters'][$paramName]) {
                     return $this;
                 }
             }
