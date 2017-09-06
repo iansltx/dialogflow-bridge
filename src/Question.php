@@ -12,6 +12,7 @@ class Question
     const SKIP_IF_EITHER_EXISTS = self::SKIP_IF_PARAM_EXISTS | self::SKIP_IF_CONTEXT_EXISTS;
 
     protected $data;
+    protected $contextsByName = [];
 
     public static function fromRequest(ServerRequestInterface $request) : Question
     {
@@ -24,6 +25,9 @@ class Question
     public function __construct(array $inputData)
     {
         $this->data = $inputData;
+        foreach ($this->data['result']['contexts'] ?? [] as $context) {
+            $this->contextsByName[$context['name']] = $context;
+        }
     }
 
     public function getParam(string $paramName, $default = null)
@@ -59,19 +63,20 @@ class Question
 
     public function getContextParam(string $contextName, string $paramName, $default = null)
     {
-        return isset($this->data['result']['contexts'][$contextName]['parameters'][$paramName]) &&
-            $this->data['result']['contexts'][$contextName]['parameters'][$paramName] ?
-            $this->data['result']['contexts'][$contextName]['parameters'][$paramName] : $default;
+        return isset($this->contextsByName[$contextName]) &&
+        isset($this->contextsByName[$contextName]['parameters'][$paramName]) &&
+        $this->contextsByName[$contextName]['parameters'][$paramName] ?
+            $this->contextsByName[$contextName]['parameters'][$paramName] : $default;
     }
 
     public function getContextData(string $contextName, $default = []) : array
     {
-        return $this->data['result']['contexts'][$contextName]['parameters'] ?? $default;
+        return $this->contextsByName[$contextName]['parameters'] ?? $default;
     }
 
     public function hasContext(string $contextName) : bool
     {
-        return isset($this->data['result']['contexts'][$contextName]);
+        return isset($this->contextsByName[$contextName]);
     }
 
     /**
@@ -81,8 +86,7 @@ class Question
      */
     public function getContextLifespan(string $contextName) : int
     {
-        return isset($this->data['result']['contexts'][$contextName]) ?
-            $this->data['result']['contexts'][$contextName]['lifespan'] : 0;
+        return isset($this->contextsByName[$contextName]) ? $this->contextsByName[$contextName]['lifespan'] : 0;
     }
 
     public function getAction() : string
@@ -112,7 +116,7 @@ class Question
 
     public function getBaseAnswer() : Answer
     {
-        return new Answer(array_column($this->data['result']['contexts'] ?? [], 'name'));
+        return new Answer(array_keys($this->contextsByName));
     }
 
     public function getOriginalText() : string
