@@ -19,7 +19,7 @@ class PSR15 implements MiddlewareInterface
      *   returns a new response with that data encoded to JSON as the response body, plus the
      *   proper Content-type header, e.g.
      *
-     * function($data) { return new \Zend\Diactoros\Response($data); }
+     * function($data) { return new \Zend\Diactoros\JsonResponse($data); }
      */
     public function __construct(Router $router, callable $createJsonResponse)
     {

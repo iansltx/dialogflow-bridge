@@ -21,6 +21,7 @@ class Router
      * @param callable|null $fallback if provided, this handler will override the default fallback handler
      *   when a dependency does not exist for a supplied action. See HandlerInterface for signature.
      * @return static
+     * @see __construct()
      */
     public static function build(ContainerInterface $container, array $actionMap, callable $fallback = null) : self
     {
@@ -33,6 +34,7 @@ class Router
      * @param callable|null $fallback if provided, this handler will override the default fallback handler
      *   when a dependency does not exist for a supplied action. See HandlerInterface for signature.
      * @return static
+     * @see __construct()
      */
     public static function buildFromClosureArray(array $handlers, callable $fallback = null) : self
     {
@@ -46,13 +48,15 @@ class Router
      * methods from being invoked in your application...so use with care!
      *
      * @param ContainerInterface $container
-     * @param callable|null $fallback
+     * @param callable|null $fallback; if null, adds a fallback callback that returns
+     *   "I'm not sure how to answer that." as both speech and text. You'll want to
+     *   override this.
      */
     protected function __construct(ContainerInterface $container, callable $fallback = null)
     {
         $this->container = $container;
         $this->fallback = $fallback ?: function(Question $question, Answer $answer) : Answer {
-            return $answer;
+            return $answer->withSpeechAndText("I'm not sure how to answer that.");
         };
     }
 
