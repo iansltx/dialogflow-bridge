@@ -97,7 +97,7 @@ class Question
      * @param array $default
      * @return array
      */
-    public function getContextParameters(string $contextName, $default = []) : array
+    public function getContextParams(string $contextName, $default = []) : array
     {
         return $this->contextsByName[$contextName]['parameters'] ?? $default;
     }
