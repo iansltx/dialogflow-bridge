@@ -1,11 +1,11 @@
 <?php
 
-namespace iansltx\ApiAiBridge;
+namespace iansltx\DialogflowBridge;
 
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * An immutable representation of an api.ai web hook request
+ * An immutable representation of an Dialogflow web hook request
  */
 class Question
 {
@@ -23,7 +23,7 @@ class Question
     }
 
     /**
-     * @param array $inputData json_decode()d-as-array web hook request payload from api.ai
+     * @param array $inputData json_decode()d-as-array web hook request payload from Dialogflow
      */
     public function __construct(array $inputData)
     {

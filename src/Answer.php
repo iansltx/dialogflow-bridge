@@ -1,6 +1,6 @@
 <?php
 
-namespace iansltx\ApiAiBridge;
+namespace iansltx\DialogflowBridge;
 
 class Answer implements \JsonSerializable
 {
@@ -13,7 +13,7 @@ class Answer implements \JsonSerializable
     protected $text;
     protected $data = [];
 
-    public function __construct(array $questionContextNames = [], string $source = 'iansltx/api-ai-bridge')
+    public function __construct(array $questionContextNames = [], string $source = 'iansltx/dialogflow-bridge')
     {
         $this->questionContextNames = $questionContextNames;
         $this->source = $source;

@@ -1,12 +1,12 @@
 <?php
 
-namespace iansltx\ApiAiBridge;
+namespace iansltx\DialogflowBridge;
 
-use iansltx\ApiAiBridge\Container\ClosureWrapper;
-use iansltx\ApiAiBridge\Container\NoMatchedActionException;
+use iansltx\DialogflowBridge\Container\ClosureWrapper;
+use iansltx\DialogflowBridge\Container\NoMatchedActionException;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use iansltx\ApiAiBridge\Container\ContainerWrapper;
+use iansltx\DialogflowBridge\Container\ContainerWrapper;
 
 class Router
 {

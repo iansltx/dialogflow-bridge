@@ -1,6 +1,6 @@
 <?php
 
-namespace iansltx\ApiAiBridge;
+namespace iansltx\DialogflowBridge;
 
 interface HandlerInterface
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace iansltx\ApiAiBridge\Container;
+namespace iansltx\DialogflowBridge\Container;
 
 use Psr\Container\NotFoundExceptionInterface;
 

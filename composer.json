@@ -1,8 +1,8 @@
 {
-  "name": "iansltx/api-ai-bridge",
-  "description": "A set of middlewares + helpers for responding to API.ai web hooks",
-  "keywords": ["api.ai", "NLU", "natural language", "bot"],
-  "homepage": "https://github.com/iansltx/api-ai-bridge",
+  "name": "iansltx/dialogflow-bridge",
+  "description": "A set of middlewares + helpers for responding to Dialogflow web hooks",
+  "keywords": ["api.ai", "Dialogflow", "NLU", "natural language", "bot"],
+  "homepage": "https://github.com/iansltx/dialogflow-bridge",
   "license": "MIT",
   "authors": [
     {
@@ -20,7 +20,7 @@
   },
   "autoload": {
     "psr-4": {
-      "iansltx\\ApiAiBridge\\": "src"
+      "iansltx\\DialogflowBridge\\": "src"
     }
   },
   "extra": {

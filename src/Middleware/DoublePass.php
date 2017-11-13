@@ -1,8 +1,8 @@
 <?php
 
-namespace iansltx\ApiAiBridge\Middleware;
+namespace iansltx\DialogflowBridge\Middleware;
 
-use iansltx\ApiAiBridge\Router;
+use iansltx\DialogflowBridge\Router;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
