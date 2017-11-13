@@ -3,8 +3,8 @@
 namespace iansltx\DialogflowBridge\Middleware;
 
 use iansltx\DialogflowBridge\Router;
-use Interop\Http\ServerMiddleware\DelegateInterface;
-use Interop\Http\ServerMiddleware\MiddlewareInterface;
+use Interop\Http\Server\MiddlewareInterface;
+use Interop\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -33,11 +33,11 @@ class PSR15 implements MiddlewareInterface
      * draft PSR-15/http-interop middleware spec.
      *
      * @param ServerRequestInterface $request
-     * @param DelegateInterface $delegate
+     * @param RequestHandlerInterface $handler
      *
      * @return ResponseInterface
      */
-    public function process(ServerRequestInterface $request, DelegateInterface $delegate)
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         return ($this->createJsonResponse)($this->router->dispatch($request));
     }
